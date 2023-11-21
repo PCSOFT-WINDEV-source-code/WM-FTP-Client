@@ -1,0 +1,484 @@
+#To edit and compare internal_properties, use WINDEV integrated tools.
+#Internal properties refer to the properties of controls in windows, reports, etc.
+info :
+ name : GlobalProcedures
+ major_version : 28
+ minor_version : 0
+ type : 7
+ description : ""
+ subtype : 0
+procedure_set :
+ identifier : 0x1a5f1150058caedf
+ internal_properties : CAAAAAgAAABGLu41kG7fjQV3iS4F72qmnKaNh5694reolNKIW0iw
+ code_elements :
+  internal_properties : CAAAAAgAAAAIWeWoeWs0MLV2jYoehVhHJkZ49uO6IlVYb37B+mHBgS0ELA1R0CJ1NXwUC/NzTGb3/Czgm2sJESip8vAfZKL2ci18Ru/k
+  type_code : 31
+  p_codes :
+   -
+     code : |1-
+      
+      // FTP errors
+      constant
+      	FTP_CONNECTION_NOTFOUND = "The FTP session odes not exist or the connection to the server was lost."
+      	FTP_TIMEOUT_EXCEEDED = "The time-out is exceeded."
+      	FTP_LAST_SERVER_RESPONSE = "The last server response is"
+      	FTP_COMMAND_FAILURE = "The FTP command failed."
+      	FTP_CONNECTION_FAILURE = "Failure connecting to the FTP server "
+      	FTP_FAILURE_MODIFYING_CURRENT_DIR = "Unable to modify the current directory to"
+      	FTP_FAILURE_RETRIEVING_CURRENT_DIR = "Unable to retrieve the current directory."
+      	
+      	
+      	FTP_SECURITY_NONE = 1 
+      	FTP_SECURITY_FTPS = 2 
+      	FTP_SECURITY_SFTP = 3 
+      	FTP_SECURITY_FTPES = 4
+      end
+      
+      garrFTPErrors is array of string = [FTP_CONNECTION_NOTFOUND,FTP_TIMEOUT_EXCEEDED,FTP_LAST_SERVER_RESPONSE,FTP_COMMAND_FAILURE,...
+      											FTP_CONNECTION_FAILURE,FTP_FAILURE_MODIFYING_CURRENT_DIR]
+      											
+      gbInDebugMode is boolean = True
+      
+      COL_BLUE_1 is int = RGB(74,144,226)
+      COL_BLUE_2 is int = RGB(33,114,206)
+      
+      COL_GREY is int = RGB(221,221,221)
+     type : 720896
+  procedures :
+   -
+     name : LoadConfiguration
+     procedure_id : 1900256603161865951
+     type_code : 15
+     code : |1-
+      
+      // Loads the last configuration used
+      Procédure LoadConfiguration()
+      
+      // Find out the last configuration used
+      gnConfigurationID = LoadParameter(PREF_CONFIGURATIONID,0)
+      
+      // Retrieve the configuration
+      HReadSeekFirst(Configuration,ConfigurationID,gnConfigurationID)
+      if HFound(Configuration) then
+      	gstConfiguration.sName = Configuration.Lastname
+      	gstConfiguration.sServerName = Configuration.ServerName
+      	gstConfiguration.nPort = Configuration.Port
+      	gstConfiguration.nTimeout = Configuration.TimeOut
+      	gstConfiguration.bAuthentication = Configuration.Authentication
+      	gstConfiguration.sUser = Configuration.User
+      	gstConfiguration.sPassword = Configuration.Password
+      	gstConfiguration.bPassive = Configuration.Passive
+      	gstConfiguration.nSecurity = Configuration.Security
+      	
+      	if Configuration.Directory = "" then
+      		gstConfiguration.sFTPDirectory = "/"
+      	else
+      		gstConfiguration.sFTPDirectory = Configuration.Directory
+      	end
+      	
+      	if Configuration.LocalDirectory = "" then
+      		
+      		<compile if ConfigurationType=Android>
+      			gstConfiguration.sLocalDirectory = ["/"] + SysDirStorageCard() + ["/"]
+      		<else>
+      			gstConfiguration.sLocalDirectory = ["/"] + fDataDir() + ["/"]
+      		<end>
+      		
+      		
+      	else
+      		gstConfiguration.sLocalDirectory = Configuration.LocalDirectory + ["/"]
+      	end
+      end
+     type : 458752
+   -
+     name : Disconnect
+     internal_properties : CAAAAAgAAABAYqROECwW+ZvsAMhfCK+jcGhj5tZhZ+WNDHrnL7HcgOzhXVpSlcdf+wlPSEUq6PLZRNQ923A184b8b3rN4Ai6JymFgVSBiE0pwgqCwH9ziUt9NCRX1t4uHW6XYJtiCyH+AAhuvh+W/pdu52NKhDQA2PNgA9RF2bMNVhdwq7GO5rMoaSUxWFBqpfaqicCW5jqd4RDNZQ==
+     procedure_id : 1900256603161931487
+     type_code : 15
+     code : |1+
+      // Summary: Disconnects from the FTP server
+      // Syntax:
+      //[ <Result> = ] Disconnect ()
+      //
+      // Parameters:
+      //	None
+      // Return value:
+      // 	boolean: True if the disconnection was performed
+      //
+      // Example:
+      // Indicate an example.
+      //
+      Procédure Disconnect()
+      
+      if gnConnectionID = -1 _or_ FTPDisconnect(gnConnectionID)  then
+      	gnConnectionID = -1
+      	gsCurrentFTPDir= ""
+      	
+      	result True
+      else
+      	gbInConnectionError = True
+      	
+      	gnConnectionID = -1
+      	gsCurrentFTPDir= ""
+      	
+      	result False
+      end
+      
+     type : 458752
+   -
+     name : ChangeConfiguration
+     procedure_id : 1900256603161997023
+     type_code : 15
+     code : |1-
+      
+      // Changes the current configuration
+      Procédure ChangeConfiguration(nID is int = 0)
+      
+      if nID = 0 then
+      	HReadFirst(Configuration)
+      	if not HOut(Configuration) then
+      		nID = Configuration.ConfigurationID
+      	end
+      end
+      // save the preference
+      SaveParameter(PREF_CONFIGURATIONID,nID)
+      
+      // Change the configuration
+      gnConfigurationID = nID
+      
+      // Load the configuration
+      LoadConfiguration()
+     type : 458752
+   -
+     name : sDetermineRemoteParentDir
+     procedure_id : 1900256603162062559
+     type_code : 15
+     code : |1+
+      // Summary: Defines the parent directory of a remote directory
+      // Syntax:
+      // [ <Result> = ] sDefineRemoteParentDir (<psDirectory>)
+      //
+      // Parameters:
+      // 	psDirectory: Remote directory
+      // Return value:
+      // 	ANSI string: Parent directory
+      //
+      Procédure sDetermineRemoteParentDir(psDirectory)
+      
+      sDir is string
+      sDir = CompleteDir(psDirectory)
+      sDir = Replace(sDir, "\", "/")
+      sDir = sDir[[1 to PositionOccurrence(sDir, "/", 2, FromEnd)]]
+      
+      if sDir = "" then
+      	sDir = "/"
+      end
+      
+      result sDir
+      
+     type : 458752
+   -
+     name : sDetermineLocalParentDir
+     procedure_id : 1900256603162128095
+     type_code : 15
+     code : |1-
+      // Summary: Defines the parent directory of a local directory
+      // Syntax:
+      // [ <Result> = ] sDefineLocalParentDir (<psDirectory>)
+      //
+      // Parameters:
+      // 	psDirectory: Local directory
+      // Return value:
+      // 	ANSI string: Parent directory
+      //
+      Procédure sDetermineLocalParentDir(psDirectory)
+      
+      sDir is string
+      sDir = CompleteDir(psDirectory)
+      sDir = sDir[[1 to PositionOccurrence(sDir, "/", 2, FromEnd)]]
+      result sDir
+     type : 458752
+   -
+     name : Connected
+     internal_properties : CAAAAAgAAAAuaFxsLXfnD3ITcphLHeYzfPhTCjM1jC+L3YMHGeyNoZwHqHf1mbt+X40lEJKFijkdRc5wKPYVY5rXa8BFvBheq6r0btPbw5t5S5DQsw+o/P3UzbC9GBpkukWIo67KWWsjf7+wC9qHNjaS3V+XXIq66fJfo0sQ6MJ5GfMVJH71cNL/POZZEspy7ltW91X++FhFmei0fxUX38aB2PXVkZOOjn3cSXkzj6Fb+wrzMHaQa7REqdSN0YxqBA==
+     procedure_id : 1900256603162193631
+     type_code : 15
+     code : |1-
+      
+      // Summary: Creates a connection to the FTP server
+      // Syntax:
+      //Connects ()
+      //
+      // Parameters:
+      //	None
+      // Return value:
+      // 	None
+      //// Automatic procedure:
+      // The procedure is run manually, during a call in the code
+      // It will be run in a thread (without having to call ThreadExecute), without using HFSQL
+      // 
+      // Automatic process of exceptions:   run CASE EXCEPTION:
+      //
+      
+      Procédure Connected()
+      
+      Trace("Connection to " + gstConfiguration.sServerName)
+      
+      // If we are not connected
+      if gnConnectionID = -1 then
+      	gnConnectionID = FTPConnectConfiguration()
+      end
+      
+      if gnConnectionID <> -1 then
+      	gsCurrentFTPDir = gstConfiguration.sFTPDirectory
+      	gsCurrentLocalDir = gstConfiguration.sLocalDirectory
+      	
+      	// Check the availability of CTPL for modifying rights on the server
+      	
+      	if gstConfiguration.nSecurity = FTP_SECURITY_NONE then
+      		<compile if ConfigurationType=Android>
+      			sAnswer is string
+      			if not FTPCommand(gnConnectionID,"SITE help", sAnswer) then
+      				gbCTPLAvailable = False
+      			else
+      				gbCTPLAvailable = (StringCount(sAnswer,"chtpl",IgnoreCase) > 0)
+      				Trace(sAnswer + " || " + gbCTPLAvailable)
+      			end
+      		<else>
+      			gbCTPLAvailable = False
+      		<end>
+      	else
+      		gbCTPLAvailable = False
+      	end
+      	
+      	
+      	
+      	Trace("Connection established.")
+      	
+      	return
+      else
+      	gbInConnectionError = True
+      	Error(<§@1cd27ae1000630230001§>,ErrorInfo)
+      	Trace(<§@1cd27ae1000630230002§> + ErrorInfo)
+      	
+      	return
+      end
+      
+      
+      case exception:
+      	Trace("Connection exception: " + ExceptionInfo())
+      	gbCTPLAvailable = False
+     type : 458752
+   -
+     name : UpdateConfigurationName
+     procedure_id : 1900256603162259167
+     type_code : 15
+     code : |1-
+      
+      // Summary: Updates the configuration names if they are empty (to simplify the switch from version 1.2.2.0 to 2.0.0.0)
+      // Syntax:
+      //UpdateConfigurationName ()
+      //
+      Procédure UpdateConfigurationName()
+      
+      for each Configuration 
+      	if Configuration.Lastname = "" then
+      		Configuration.Lastname = Configuration.ServerName
+      		HModify(Configuration)
+      	end
+      end
+     type : 458752
+   -
+     name : CheckConnection
+     internal_properties : CAAAAAgAAAAeQeZWqR4YD9gNuw5ISpse4q5d4YfQh8vxSSLWonylqfGpzXAstIQfjtu5yNZJ9N/c91UXiZv53fcJCNn0zKQH2jXtD1BPimLproJX87E+1RbRiyhFUUvyPW0p6P5mipLcRRthNLb+/G4cHMU2fOcWaLmnLrlIMic+6HTcyeP/rQgO
+     procedure_id : 1900256603162324703
+     type_code : 15
+     code : |1-
+      
+      // Summary: Re-enables the connection if necessary (if cut by the server for example)
+      //// Automatic process of exceptions:   run CASE EXCEPTION:
+      //
+      
+      Procédure CheckConnection()
+      
+      
+      if gnConnectionID <> -1 then
+      	
+      	<compile if ConfigurationType=Android>
+      		sAnswer is string
+      		if gstConfiguration.nSecurity = FTP_SECURITY_NONE then
+      			if not FTPCommand(gnConnectionID,"NOOP",sAnswer) _or_ StringCount(sAnswer,"200") < 1 then
+      				
+      				// Disconnection
+      				FTPDisconnect(gnConnectionID)
+      				
+      				// Small tempo
+      				Multitask(-10)
+      				
+      				// Connection
+      				gnConnectionID = FTPConnectConfiguration()
+      				
+      				// Small tempo
+      				Multitask(-10)
+      			end
+      		end
+      	<end>
+      else
+      	// Reconnect
+      	gnConnectionID = FTPConnectConfiguration()
+      
+      	// Small tempo
+      	Multitask(-10)
+      end
+      
+      case exception:
+      	
+      	Trace("CheckConnexion exception: " + ExceptionInfo())
+     type : 458752
+   -
+     name : DebugMode
+     internal_properties : CAAAAAgAAACMnl/jXSKrydv8sCh/mN8DwGgjRnaht8W9zFpX/9Gc0AwxLUpCBcdv+xk/yGW62LIpZFTdW/CFk/acbwpdgEjK51n1cWSRaD1p8rJ6mHd7AfMlvJy/TkamhVa/uNM6MxnGyPCmpjc+Np9WL9viXBxYoDsI+/w9QSt1Hh/oI+nWvvvwUd35sBhCTd6SYZguqbHBjkQZKQ==
+     procedure_id : 1900256603162390239
+     type_code : 15
+     code : |1-
+      
+      // Summary: Enables (or not) the debug mode to display the traces
+      // 
+      Procédure DebugMode(bActivate is boolean)
+      
+      gbInDebugMode = bActivate
+     type : 458752
+   -
+     name : Trace
+     internal_properties : CAAAAAgAAAA3o5m/Wk2ezHcI0iz2J0TYZD7tdc9SMstma633Ocm/1bzp/OOq8b4fb/7pDF7i/uB423iqbftMVcqYovrYnZhrmThMnD6TUuZqLiHNhWU1zwfW/TcDMRii9FN2RhAtUT3qVmAI/fs02wsbJxOkBazVXs+cRgz+C8da8AJ6N9IB0vyTbyHtJCbOxhqAlKAEmOCR7j+05co+eD8DOq8TpO/VFiPul+WHGiYAQIZv1fOtlH7HNV618+B96qw0GVYBWNaweG2TYmhj25RY28rKnYFKaF3JUuAl1G7rRCv3qzuVfECtMX0y2OrCnaGgtCN08BZyePH5vGi+OQ3cF9nVop53ivGpfN9xQQe1ioe5uCCFR/AxWCRtR/+Ez/z0u+u/SInwO3y+Q1Ok
+     procedure_id : 1900256603162455775
+     type_code : 15
+     code : |1-
+      
+      // Summary: Overloads the trace function in order to take the debug mode into account
+      // Syntax:
+      //Trace (<sContent> is string)
+      //
+      // Parameters:
+      //	sContent (ANSI string): Trace to display
+      
+      Procédure Trace(local sContent is string)
+      
+      if gbInDebugMode then
+       	wl.Trace(sContent)
+      end
+     type : 458752
+   -
+     name : FTPConnectConfiguration
+     procedure_id : 1900256603162521311
+     type_code : 15
+     code : |1-
+      // Summary: Establishes an FTP connection
+      // Syntax:
+      //[ <Result> = ] FTPConnectConfiguration ([<stConfig> is STConfiguration])
+      //
+      // Parameters:
+      //	stConfig (STConfiguration): The configuration
+      // Return value:
+      // 	integer: // 	None
+      //
+      // Example:
+      // Indicate an example.
+      //
+      Procédure FTPConnectConfiguration(stConfig is STConfiguration = gstConfiguration) : int
+      
+      nConnection is int
+      sProtocol is string
+      
+      
+      // Find the protocol according to the security of connection
+      switch stConfig.nSecurity
+      	case FTP_SECURITY_NONE
+      		// not secure	
+      		sProtocol = ""
+      		if stConfig.nPort = 0 then stConfig.nPort = 21
+      	case FTP_SECURITY_SFTP
+      		// secure: SFTP protocol
+      		sProtocol = "sftp://"
+      		if stConfig.nPort = 0 then stConfig.nPort = 22
+      	case FTP_SECURITY_FTPS
+      		// secure: FTPS protocol
+      		sProtocol = "ftps://"
+      		if stConfig.nPort = 0 then stConfig.nPort = 990
+      	case FTP_SECURITY_FTPES			
+      		// secure: FTPES protocol	
+      		sProtocol = "ftpes://"
+      		if stConfig.nPort = 0 then stConfig.nPort = 21
+      		
+      end
+      
+      
+      nConnection = FTPConnect(sProtocol+stConfig.sServerName,stConfig.sUser,stConfig.sPassword,stConfig.nPort,stConfig.bPassive,stConfig.nTimeout)
+      
+      
+      result nConnection
+     type : 458752
+  procedure_templates : []
+  property_templates : []
+ code_parameters :
+  internal_properties : CAAAAAgAAACVGQgYbalU7DKC3oH4ItDrjtcTHXXV/EuH8q0IbhyQlw==
+  original_name : COL_ProcéduresGlobales1
+resources :
+ string_res :
+  identifier : 0x1cd27ae100063023
+  internal_properties : CAAAAAgAAACm76HWfKGWp33VjXInA4cRlqArlgTTA862QGt72W2ld5Y=
+  strings :
+   -
+     text :
+      en-GB : Connection established
+     index : 0
+   -
+     text :
+      en-GB : Error during the connection.
+     index : 1
+   -
+     text :
+      en-GB : "Error during the connection: "
+     index : 2
+   -
+     text :
+      en-GB : Sign in...
+     index : 3
+   -
+     text :
+      en-GB : Disconnection successful
+     index : 4
+   -
+     text :
+      en-GB : Disconnection failure
+     index : 5
+   -
+     text :
+      en-GB : The FTP session odes not exist or the connection to the server was lost.
+     index : 6
+   -
+     text :
+      en-GB : The time-out is exceeded.
+     index : 7
+   -
+     text :
+      en-GB : The FTP command failed.
+     index : 8
+   -
+     text :
+      en-GB : Check your connection parameters.
+     index : 9
+   -
+     text :
+      en-GB : Unable to modify the current directory.
+     index : 10
+   -
+     text :
+      en-GB : Unable to retrieve the current directory.
+     index : 11
+   -
+     text :
+      en-GB : Unable to connect to the server.
+     index : 12
+custom_note :
+ internal_properties : CAAAAAgAAABtB9HWVzrXO2+4NDRVK0vmzaNKrCKqH1DBX30lMmGZ

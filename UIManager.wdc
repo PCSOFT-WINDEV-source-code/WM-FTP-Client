@@ -1,0 +1,366 @@
+#To edit and compare internal_properties, use WINDEV integrated tools.
+#Internal properties refer to the properties of controls in windows, reports, etc.
+info :
+ name : UIManager
+ major_version : 28
+ minor_version : 0
+ type : 4
+ description : ""
+ subtype : 0
+class :
+ identifier : 0x1e0445f800588842
+ internal_properties : CAAAAAgAAAB2/vstTMCJbS/hlxjFxirSqKvCUuv8YxgpWyl7S3iA
+ code_elements :
+  internal_properties : CAAAAAgAAADxMA8KLscmfvBzHqNSv4gK/wO3CiiLVZ6vuX9awwxEZwt6HdiUVqBOSeuT9ewpOott7z7apfXHTrSsFVY0jCRnxkkEmE17eKOISHehOnT+
+  type_code : 10
+  p_codes :
+   -
+     code : |1+
+      UIManager is class
+      	bStop 			is boolean
+      	bInFunction		is boolean
+      	bRefreshQuickly	is boolean
+      	
+      	//[%0000012d%]
+      	constant
+      		LOOP_PENDING = 1
+      		LOOP_DONE = 2
+      		LOOP_ERROR = 3
+      	end
+      end
+      
+     type : 131072
+  procedures :
+   -
+     name : Constructeur
+     procedure_id : 2162930652504754242
+     type_code : 27
+     code : |1+
+      Procédure Constructor()
+     type : 589824
+   -
+     name : Destructeur
+     procedure_id : 2162930652504819778
+     type_code : 28
+     code : |1+
+      Procédure Destructor()
+      
+     type : 655360
+   -
+     name : Run
+     internal_properties : CAAAAAgAAAAm0YlFJ7+ixNegNJqs4LgJsJsPtC2GvCgJlxyFwGvPNINGX1JL0b7aSY+a7uZ1zv5vWSLlw5FBjVvJQfAJ3uK1CXSblqXp+6/V8jB1sb90G4zKtb4Eauz2kIgvlGynDC8NQ+9UI/XmiooQt8URpaX+ZYgZ+UV/eYVkznnesKfYpkuURzKBP3Ri9wMRgZhzBvuPycvZPluu6oADFnfgg2PjEg==
+     procedure_id : 2162930691159600276
+     type_code : 12
+     code : |1-
+      Procédure Run()
+      
+      //[%0000012e%]
+      arrPendingTransfers 		is array of FTPTransfer
+      arrCurrentTransfers		is array of FTPTransfer
+      arrCompletedTransfers		is array of FTPTransfer
+      arrTransfersInError		is array of FTPTransfer
+      arrCanceledTransfers		is array of FTPTransfer
+      
+      Trace("Start the UI manager")
+      
+      while not bStop
+      	ArrayDeleteAll(arrPendingTransfers)
+      	ArrayDeleteAll(arrCurrentTransfers)
+      	ArrayDeleteAll(arrCompletedTransfers)
+      	ArrayDeleteAll(arrTransfersInError)
+      	ArrayDeleteAll(arrCanceledTransfers)
+      	
+      	//[%0000012f%]
+      	for each clTransfer of gclFTPCoordinator.m_arrTransfers
+      		switch clTransfer.m_nStatus
+      			case FTPTransfer.STATUS_CANCELED
+      				ArrayAdd(arrCanceledTransfers,clTransfer)
+      			case FTPTransfer.STATUT_PENDING
+      				ArrayAdd(arrPendingTransfers,clTransfer)
+      			case FTPTransfer.STATUS_INPROGRESS
+      				ArrayAdd(arrCurrentTransfers,clTransfer)
+      			case FTPTransfer.STATUS_ERROR
+      				ArrayAdd(arrTransfersInError,clTransfer)
+      			case FTPTransfer.STATUS_COMPLETED
+      				ArrayAdd(arrCompletedTransfers,clTransfer)
+      			other case
+      		end
+      	end
+      	
+      	//[%00000130%]
+      	RefreshUI(arrPendingTransfers,arrCurrentTransfers,arrCompletedTransfers,arrTransfersInError)
+      	
+      	if not bRefreshQuickly then
+      		Multitask(-10)
+      	else
+      		bRefreshQuickly = False
+      	end
+      end
+      
+      Multitask(-10)
+      
+      //[%00000131%]
+      RefreshUI(arrPendingTransfers,arrCurrentTransfers,arrCompletedTransfers,arrTransfersInError)
+      
+      bInFunction = False
+      bStop = False
+      Trace("Stop the UI manager.")
+     type : 458752
+   -
+     name : Start
+     procedure_id : 2162930858663363352
+     type_code : 12
+     code : |1+
+      
+      //[%00000132%]
+      //[%00000133%]
+      Procédure Start()
+      
+      bInFunction = True
+      //[%00000134%]
+      ThreadExecute("UIMANAGER",threadNormal,Run)
+     type : 458752
+   -
+     name : RefreshUI
+     procedure_id : 2162932391967110443
+     type_code : 12
+     code : |1-
+      
+      //[%00000135%]
+      //[%00000136%]
+      //[%00000137%]
+      //[%00000138%]
+      //[%00000139%]
+      //[%0000013a%]
+      //[%0000013b%]
+      //[%0000013c%]
+      //[%0000013d%]
+      
+      //[%0000013e%]
+      Procédure RefreshUI(arrPendingTransfers is array of FTPTransfer,arrCurrentTransfers is array of FTPTransfer,...
+      						arrCompletedTransfers  is array of FTPTransfer,arrTransfersInError  is array of FTPTransfer)
+      
+      if gbInTabletMode then
+      	ExecuteMainThread(RefreshTabletUI,arrPendingTransfers,arrCurrentTransfers,arrCompletedTransfers,arrTransfersInError)
+      else
+      	ExecuteMainThread(RefreshPhoneUI,arrPendingTransfers,arrCurrentTransfers,arrCompletedTransfers,arrTransfersInError)
+      end
+     type : 458752
+   -
+     name : RefreshPhoneUI
+     procedure_id : 2162936798610546184
+     type_code : 12
+     code : |1+
+      
+      //[%0000013f%]
+      //[%00000140%]
+      //[%00000141%]
+      //[%00000142%]
+      //[%00000143%]
+      //[%00000144%]
+      //[%00000145%]
+      //[%00000146%]
+      //[%00000147%]
+      
+      //[%00000148%]
+      Procédure RefreshPhoneUI(arrPendingTransfers is array of FTPTransfer,arrCurrentTransfers is array of FTPTransfer,...
+      								arrCompletedTransfers  is array of FTPTransfer,arrTransfersInError  is array of FTPTransfer)
+      
+      
+      //[%00000149%]
+      clCurrentTransfer is FTPTransfer
+      nPercentage is int
+      
+      //[%0000014a%]
+      WIN_Main.STC_Pending = arrPendingTransfers..Occurrence + arrCurrentTransfers..Occurrence
+      WIN_Main.STC_Done = arrCompletedTransfers..Occurrence
+      WIN_Main.STC_InError = arrTransfersInError..Occurrence
+      
+      //[%0000014b%]
+      //[%0000014c%]
+      //[%0000014d%]
+      if arrCurrentTransfers..Occurrence > 0 then
+      	WIN_Main.GR_CurrentTransfer..Visible = True
+      	clCurrentTransfer = arrCurrentTransfers[1]
+      	
+      	if clCurrentTransfer.m_nTotalBytes > 0 then
+      		nPercentage = clCurrentTransfer.m_nTransferredBytes * 100 / clCurrentTransfer.m_nTotalBytes	
+      	end
+      	
+      	//[%0000014e%]
+      	WIN_Main.PROGBAR_ProgBar..MaxValue = clCurrentTransfer.m_nTotalBytes
+      	WIN_Main.PROGBAR_ProgBar = clCurrentTransfer.m_nTransferredBytes	
+      
+      	//[%0000014f%]
+      	WIN_Main.STC_FileCurrentlyTransferred = clCurrentTransfer.m_sFile
+      	WIN_Main.STC_SizeCurrentlyTransferred = StringBuild("%1/%2",LengthToString(clCurrentTransfer.m_nTransferredBytes	),...
+      																				LengthToString(clCurrentTransfer.m_nTotalBytes))
+      	WIN_Main.STC_PercentageDuringTransfer = nPercentage + " %"
+      																				
+      	//[%00000150%]
+      	if clCurrentTransfer.m_bDownload then
+      		WIN_Main.IMG_InProgress_Direction = WIN_Main.IMG_InProgress_Download_Direction
+      	else
+      		WIN_Main.IMG_InProgress_Direction = WIN_Main.IMG_InProgress_Upload_Direction	
+      	end
+      else
+      	WIN_Main.GR_CurrentTransfer..Visible = False
+      end
+      
+      
+      //[%00000151%]
+      //[%00000152%]
+      WIN_Main.RefreshPhoneLPR(arrPendingTransfers,arrCurrentTransfers,arrCompletedTransfers,arrTransfersInError)
+      
+      
+     type : 458752
+   -
+     name : RefreshTabletUI
+     procedure_id : 2162936828675389890
+     type_code : 12
+     code : |1-
+      
+      //[%00000153%]
+      //[%00000154%]
+      //[%00000155%]
+      //[%00000156%]
+      //[%00000157%]
+      //[%00000158%]
+      //[%00000159%]
+      //[%0000015a%]
+      //[%0000015b%]
+      
+      //[%0000015c%]
+      Procédure RefreshTabletUI(arrPendingTransfers is array of FTPTransfer,arrCurrentTransfers is array of FTPTransfer,...
+      								arrCompletedTransfers  is array of FTPTransfer,arrTransfersInError  is array of FTPTransfer)
+      
+      //[%0000015d%]
+      clCurrentTransfer is FTPTransfer
+      nPercentage is int
+      
+      //[%0000015e%]
+      WIN_Main_Tablet.SC_Transfers.STC_Pending = arrPendingTransfers..Occurrence + arrCurrentTransfers..Occurrence
+      WIN_Main_Tablet.SC_Transfers.STC_Done = arrCompletedTransfers..Occurrence
+      WIN_Main_Tablet.SC_Transfers.STC_InError = arrTransfersInError..Occurrence
+      
+      //[%0000015f%]
+      //[%00000160%]
+      //[%00000161%]
+      if arrCurrentTransfers..Occurrence > 0 then
+      	WIN_Main_Tablet.GR_CurrentTransfer..Visible = True
+      	clCurrentTransfer = arrCurrentTransfers[1]
+      	
+      	if clCurrentTransfer.m_nTotalBytes > 0 then
+      		nPercentage = clCurrentTransfer.m_nTransferredBytes * 100 / clCurrentTransfer.m_nTotalBytes	
+      	end
+      	
+      	//[%00000162%]
+      	WIN_Main_Tablet.SC_Transfers.PROGBAR_ProgBar..MaxValue = clCurrentTransfer.m_nTotalBytes
+      	WIN_Main_Tablet.SC_Transfers.PROGBAR_ProgBar = clCurrentTransfer.m_nTransferredBytes	
+      	
+      	//[%00000163%]
+      	WIN_Main_Tablet.SC_Transfers.STC_FileCurrentlyTransferred = clCurrentTransfer.m_sFile
+      	WIN_Main_Tablet.SC_Transfers.STC_SizeCurrentlyTransferred = StringBuild("%1/%2",LengthToString(clCurrentTransfer.m_nTransferredBytes	),...
+      		LengthToString(clCurrentTransfer.m_nTotalBytes))
+      	WIN_Main_Tablet.SC_Transfers.STC_PercentageDuringTransfer = nPercentage + " %"
+      	
+      	//[%00000164%]
+      	if clCurrentTransfer.m_bDownload then
+      		WIN_Main_Tablet.SC_Transfers.IMG_InProgress_Direction = WIN_Main_Tablet.IMG_InProgress_Download_Direction
+      	else
+      		WIN_Main_Tablet.SC_Transfers.IMG_InProgress_Direction = WIN_Main_Tablet.IMG_InProgress_Upload_Direction	
+      	end
+      else
+      	WIN_Main_Tablet.GR_CurrentTransfer..Visible = False
+      end
+      
+      
+      //[%00000165%]
+      //[%00000166%]
+      RefreshTabletLPR(arrPendingTransfers,arrCurrentTransfers,arrCompletedTransfers,arrTransfersInError)
+     type : 458752
+   -
+     name : StopIt
+     internal_properties : CAAAAAgAAAAOL3UfdGShyx9fetoW3cG3zS1SAgQJoRixMQ3JXOtNZL3WNai6hqNnIptElCKsTa13zFPTrRbc+R+TE2IBOsv8p3JKKybu+m61gOWfU61n4gMjaVDar8Hetw0zuk4nOD5xEhO0F5jxGgEjEVuLt18pZ1tnd6e4KgGNEW3SeEXOtXmzpbItyFG8JHJ9vdiinuN8f/PZDv0iEu+42lhO98PEecFN
+     procedure_id : 2162937524460712273
+     type_code : 12
+     code : |1-
+      
+      //[%00000167%]
+      //[%00000168%]
+      Procédure StopIt()
+      
+      bStop = True
+      bInFunction = False
+      Trace("Ask to stop the UI manager.")
+     type : 458752
+   -
+     name : Refresh
+     procedure_id : 2164058017002596776
+     type_code : 12
+     code : |1-
+      
+      //[%00000169%]
+      //[%0000016a%]
+      Procédure Refresh()
+      
+      bRefreshQuickly = True
+     type : 458752
+   -
+     name : RefreshTabletLPR
+     internal_properties : CAAAAAgAAABRqXPP71cwX9yphaKvj5RMWo1FQdgPV4IR1Mhbhr9nhK4jR0WJSNM46MonO5lXgi0rGkoCgd5RE55WFY0bLP18/CxuyRO0MYDTqOIqdlrhpqtUbSgFKdhLmoUDyvtRRwKE56HQPPzGFWo3hcGOMSqboLrVT8B0V5iC4WPM4fdf+qV9mrNr1RdeTBvKKtb5cHCIx1sq
+     procedure_id : 2230144653031962397
+     type_code : 12
+     code : |1-
+      
+      //[%0000016b%]
+      //[%0000016c%]
+      //[%0000016d%]
+      //[%0000016e%]
+      //[%0000016f%]
+      //[%00000170%]
+      //[%00000171%]
+      //[%00000172%]
+      //[%00000173%]
+      
+      Procédure RefreshTabletLPR(arrPendingTransfers is array of FTPTransfer,arrCurrentTransfers is array of FTPTransfer,...
+      								arrCompletedTransfers  is array of FTPTransfer,arrTransfersInError  is array of FTPTransfer)
+      
+      //[%00000174%]
+      arrLOOP is array of FTPTransfer
+      
+      switch WIN_Main_Tablet.gnLPRMode
+      	case LOOP_PENDING
+      		arrLOOP = arrCurrentTransfers
+      		
+      		//[%00000175%]
+      		for each clTTrans of arrPendingTransfers
+      			ArrayAdd(arrLOOP,clTTrans)
+      		end
+      	case LOOP_ERROR
+      		arrLOOP = arrTransfersInError
+      	case LOOP_DONE
+      		arrLOOP = arrCompletedTransfers
+      	other case
+      		return
+      end
+      
+      LooperDeleteAll(WIN_Main_Tablet.SC_Transfers.LOOP_Transfers)
+      if arrLOOP..Occurrence > 0 then
+      	for each clTransfer of arrLOOP
+      		LooperAddLine(WIN_Main_Tablet.SC_Transfers.LOOP_Transfers,clTransfer.m_nID,clTransfer.m_sFile,...
+      		clTransfer.m_nType,clTransfer.m_bDownload)	
+      	end
+      end
+     type : 458752
+  procedure_templates : []
+  property_templates : []
+ code_parameters :
+  internal_properties : CAAAAAgAAACVGQgYbalU7DKC3oH4ItDrjtcTHXXV/EuH8q0IbhyQlw==
+  original_name : CClasse1
+resources :
+ string_res :
+  identifier : 0x1e0445f800558832
+  internal_properties : CAAAAAgAAACm76HWfKGWp33VjXInA4cRlqArlgTTA862QGt72W2ld5Y=
+custom_note :
+ internal_properties : CAAAAAgAAABtB9HWVzrXO2+4NDRVK0vmzaNKrCKqH1DBX30lMmGZ

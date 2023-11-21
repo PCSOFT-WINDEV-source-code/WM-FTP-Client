@@ -1,0 +1,110 @@
+#To edit and compare internal_properties, use WINDEV integrated tools.
+#Internal properties refer to the properties of controls in windows, reports, etc.
+info :
+ name : IW_PULL_TO_REFRESH
+ major_version : 28
+ minor_version : 0
+ type : 8
+ description : ""
+ subtype : 0
+window :
+ name : IW_PULL_TO_REFRESH
+ identifier : 0x2a5f111936f7d835
+ internal_properties : CAAAAAgAAACiw8ELQizP2Y39L2FZ0oAxOo4naopXXg1cTWSHkIcOFTroM0o1x4DXHIy9NEQJkjO90IYGp9KuchRZO1Ce247YfpsXg7LCeP8PuUleOQ/MY9cY4vcV3NTFbXjaJU/RgQUNO3Q2kCNJPOp/3xKUEwlY8zn6XHnqWCLbq+giuudHZamDU786oVP9Pcy2wcV6+/FUJIMKB7ZW05LY+ByGHDsDdJq0tmEbj7ZIUZkiLme9WNBaP2PA6EYrTQNXMU4bD5JCuwQ6iPb4lPWMt4yH1ROXhOBfkJ3zsOMhkPfcTTq5e3w/CV88ijwWXOHD0ZbZ4O9qEbNAoFiACk8QoqYpRl1rXqIeAezIVitFUXQ/pvgkLIwtP4AAqVM+U8/owkF2RO8Xez2ODG3Scff1b6eyegXn7qWWoT9yOqvhZf7rY14Md2+1imd4yrPFNlD9TZQCOSOPp/zIT1UoTRRNwxZZZvfYXZAy2KkBRLNUZKiFoLErW7660cqn5xKtpDRkljMUdaxwQN6iZQB5dDVkzwOadpmWYJnEe+wH9HQQGPTaJ7dbkrnxdCoFjnXstSsH5NV36ZcHE1L++5jFDDy3WMC17XJBiTkMtocmolljAHXOQeiYla5pt1zo3stPSDuBIeghuDbIkrh+ov/+qynOApddLaSZvUctm1L0NsMJddcZbVGwjlJ+fRiPfcBbV/66Ypg6hKZBl9JGy5DoeqI/VzrfU+n/tQ422BTghUMIxTZRRnU7ZMLAXYkYkWNIqcdeBeSJU39FAoJO33VTtnoOxTpEwTpMd9sZgoDqCdlA4oJmVg9JC0oKBhJCZGasCOExtb8PtQ==
+ properties :
+  width : 320
+  height : 56
+ controls :
+  -
+    name : IW_PULL_TO_REFRESH
+    identifier : 0x2a5f111936f8d835
+    internal_properties : CAAAAAgAAAA8P4ZIUJ1O8fynuoT0U+rjUhp9QtUeiqqhC7KXMfjUViZZVT9qd3T558kyJ3qXWs2ZKwwYq/mjuVqzMsbxEZau9jpVkHAV6ZTgz/8CFmA7BCGWrTu4qmfXqn478B37sX9Rg3KNQ/LNjesrNvq2S/UvnC5bI8msfVrJE+pxG/HJiEFwlfE7ddKyCZKxGac+0d3I8JntvtL5QUIwPiqwpGGGyRbCkKAy1fHwjSep/T97qBWsoFKJLh/mAlfAyeFnTh3Xcm0pz9fmkBaAnJ376rOt+1pBYdBfh0sO+CmCjrraCjpXbaYeexbPgRyUDZ1EnZYFNvmmJ81hLQlg6ktixkgwK+yRxfVNwSUA1+hEtoCvSX1HZuL/bAU5yJMKrHwY6cwXxkGKWogSaav55wXQqmEYm2MTPRRYLtH7AeWyWuOoqWGkP87rPoUOQnEUwJvG1BRGrSd7IlxOXiytiRd/U/o/ra9zQmCOuAtuFeTOXITTEA==
+    properties :
+     width : 320
+     height : 56
+    controls :
+     -
+       name : NativeCircular
+       identifier : 0x2a5f111936f9d835
+       internal_properties : CAAAAAgAAAB29nBBiH83dqRIk13qUQK/uAmFghr14VP9ug1B4YwpMmJC3vuvV+ipkvjUA1NqRxNEHUimrBUbcODKqTNH/AC4lJ8rZFZ+qXuTVJIE3h0Ov/dWPQ76Tzn6h/DYwdSneYKvjwnBMns5jBzTqv9efDGrTWYSHb2zNgypWEs/b8tihDrF2881m1UFm09prFX0RsIMasrwcIheU1uvE5SvBVlPjnwU0VY8d7etWAlFQ76gVOsZUTktPf8HZfwckWkmxJ16JKehm5FIge51N0J3A5osQmN8BJ5y3PxZ/PrmEGYudFc/dj4X8M2GJjBUvwa4BuLad5yrJt2XLtBxYClC4lxBKeuDLBVLeM91iaIp
+       properties :
+        x : 148
+        y : 16
+        width : 24
+        height : 24
+       type : 113
+       code_elements :
+        type_code : 136
+        p_codes :
+         -
+           type : 18
+         -
+           type : 210
+         -
+           type : 211
+         -
+           type : 212
+    type : 32
+    code_elements :
+     type_code : 70
+     p_codes :
+      -
+        code : |1+
+         Procédure MyWindow()
+      -
+        code : |1-
+         
+        type : 231
+      -
+        code : |1-
+         
+        type : 232
+      -
+        code : |1-
+         
+        type : 233
+ menu :
+  name : _Menu
+  identifier : 0x235e288300b26875
+  internal_properties : CAAAAAgAAAD6/fwZdBRB8IDYAHHmdn8xAxD+uXi41EZyxyOHKRRlDi2m/CEs9JtCuLNtpQR4bdAgFt15C/buXaxdGrwMrwwJuCoAJikYGopc1uMHSciY5Vph6EKTutrarwgYmlfNh1aVo8wMnkrPSeoSP72wKzwyxRnyuY2QRPOf6GYuWM5l6Ipw0pQnD39OpFcWAKOzfgtGoJixkv0AnpT1JQlY7hTDix6EZgtEQ8rOlTETgsUFxDI7MJeOlRLAFoXGjtTgiCQig5pkzhyLO6og7B3dCdLwCaouJtgl9qLZjPpvALzmdQLCOpZqXsPsrLga0fNO2Wo=
+  options : []
+ languages :
+  - en-GB
+ popup_menus : []
+ message_bar : {}
+ actionbar : {}
+ code_elements :
+  type_code : 71
+  p_codes : []
+ code_parameters :
+  internal_properties : CAAAAAgAAACVGQgYbalU7DKC3oH4ItDrjtcTHXXV/EuH8q0IbhyQlw==
+  original_name : FI_SansNom1
+resources :
+ string_res :
+  identifier : 0x14184f7e027792df
+  internal_properties : CAAAAAgAAACm76HWfKGWp33VjXInA4cRlqArlgTTA862QGt72W2ld5Y=
+  strings :
+   -
+     text :
+      en-GB : Last update on %1 at %2
+     index : 0
+   -
+     text :
+      en-GB : MM/DD/YYYY
+     index : 1
+   -
+     text :
+      en-GB : "HH:MM"
+     index : 2
+   -
+     text :
+      en-GB : Pull to refresh
+     index : 3
+   -
+     text :
+      en-GB : Release to refresh
+     index : 4
+custom_note :
+ internal_properties : CAAAAAgAAAC68/W0/adbG0nFCRhrE42B5HRnbDzVHaz86sSQyxlBk7I=
+rad :
+ internal_properties : CAAAAAgAAABoAN7PLpwJW3EiA7WVZdCA5EwrCA1rvutcDHooMWKe

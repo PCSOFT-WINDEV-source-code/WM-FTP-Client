@@ -1,0 +1,206 @@
+#To edit and compare internal_properties, use WINDEV integrated tools.
+#Internal properties refer to the properties of controls in windows, reports, etc.
+info :
+ name : FTPTransfer
+ major_version : 28
+ minor_version : 0
+ type : 4
+ description : ""
+ subtype : 0
+class :
+ identifier : 0x1a5f114c056ba0b6
+ internal_properties : CAAAAAgAAAB2/vstTMCJbS/hlxjFxirSqKvCUuv8YxgpWyl7S3iA
+ code_elements :
+  internal_properties : CAAAAAgAAAD1dV5ZGi5AahtDwstTYEckeNtpJOV7o7j/oBRvdzohOF1wES0n50EZuFhkAfbk525ixC92GxL2yVf7OEAIZya7ni2vxhF53g==
+  type_code : 10
+  p_codes :
+   -
+     code : |1+
+      FTPTransfer is class
+      	m_nID					is int
+      	m_sFile 				is string
+      	m_nType					is int
+      	m_sDestinationDir		is string
+      	m_bDownload			is boolean
+      	m_nStatus				is int
+      	m_sError				is string
+      	
+      	//[%00000060%]
+      	m_nTotalBytes			is int
+      	m_nTransferredBytes	is int
+      	
+      	//[%00000061%]
+      	constant
+      		STATUT_PENDING		= 1
+      		STATUS_INPROGRESS			= 2
+      		STATUS_CANCELED			= 3
+      		STATUS_COMPLETED			= 4
+      		STATUS_ERROR			= 5
+      	end
+      end
+      
+     type : 131072
+  procedures :
+   -
+     name : Constructeur
+     procedure_id : 1900256585979830469
+     type_code : 27
+     code : |1+
+      Procédure Constructor()
+      
+     type : 589824
+   -
+     name : Destructeur
+     procedure_id : 1900256585979896005
+     type_code : 28
+     code : |1+
+      Procédure Destructor()
+      
+     type : 655360
+   -
+     name : StartTransfer
+     internal_properties : CAAAAAgAAAAyFML4ms6kzkSrYILeuGKfnoCnBC3rhepnCPppraGkMC4Vi0KcVytxXW1zGhtCEEoH5PJFmU5VvVAgh9CXDGwGdWnPBeIbdC8LXnkZobQMLo5GJRdcK5l17I2yD0x3vDbl8WmNn3ht6ZrxVpq7eXlZgyRhHtl6lOZIkdo3VN0ahgxtrAZY28Jwbl9P10+c3OQna6qjkw==
+     procedure_id : 1900256585979961541
+     type_code : 12
+     code : |1+
+      
+      //[%00000062%]
+      //[%00000063%]
+      Procédure StartTransfer()
+      
+      Trace("Starting a transfer thread: TRANSFER_"+ m_nID)
+      
+      object:Run()
+     type : 458752
+   -
+     name : Run
+     internal_properties : CAAAAAgAAAAC5Kfa9DGYAU5sS6XjhDYLL0xHW6X5UlFhZTuKMje/CoVnjj3Bgy0bJRC8HeP3y1w7MEOV7FBnv44cQja74S3xdwzXRXKFx0XDrUMJ9njsjHSBctirPLF8Yq/DtsovpcFcIG/qbUCZmulj/3PrG5NZF4NhT+/6hnigLvWw9v+l9Kd9oyYAz+8jcgr2LzVizDHcxbBGE5ZucLqtytN1LtIH9XPaAiiWtK9af+/dckUTkE+KUpp2ng5j1wUk7oPh/2ngafU=
+     procedure_id : 1900256585980027077
+     type_code : 12
+     code : |1+
+      
+      //[%00000064%]
+      //[%00000065%]
+      //[%00000066%]
+      //[%00000067%]
+      //[%00000068%]
+      
+      Procédure Run()
+      
+      bRes 			is boolean
+      nConnection 		is int
+      
+      //[%00000069%]
+      gnNbTransfersInProgress++
+      
+      //[%0000006a%]
+      m_nStatus = STATUS_INPROGRESS
+      
+      //[%0000006b%]
+      nConnection  = FTPConnectConfiguration()
+      
+      //[%0000006c%]
+      if nConnection = -1 then
+      	Trace("double connection not possible: " + ErrorInfo())
+      	nConnection = gnConnectionID
+      else
+      	Trace("double connection performed")
+      end
+      
+      if nConnection <> -1 then
+      	 Trace(StringBuild("Starting the transfer from %1 to %2 with the ID %3",m_sFile,m_sDestinationDir,m_nID))
+      	 
+      	 if gnConnectionID = nConnection then
+      	 	//[%0000006d%]
+      		 CheckConnection() 	
+      	 end
+      	 
+      	 //[%0000006e%]	
+      	 if m_bDownload then
+      	 	bRes = FTPGet(nConnection,m_sFile,m_sDestinationDir,ManageTransfer)
+      	 else
+      	 	bRes = FTPSend(nConnection,m_sFile,m_sDestinationDir,ManageTransfer)
+      	 end
+      	 
+      	 //[%0000006f%]
+      	 if bRes then
+      	 	//[%00000070%]
+      	 	if gnConnectionID <> nConnection then
+      	 		FTPDisconnect(nConnection)
+      	 	end
+      	 	m_nStatus = STATUS_COMPLETED
+      	 	Trace(StringBuild("Transfer of %1 completed.",m_sFile)) 
+      	 else
+      	 	m_nStatus = STATUS_ERROR
+      	 	m_sError = ErrorInfo()
+      	 	Trace(StringBuild("Error while transferring %1: " + ErrorInfo(),m_sFile))
+      	 	ToastDisplay(m_sError,toastLong)
+      	 end
+      	 
+      	 gnNbTransfersInProgress--
+      else
+      	m_nStatus = STATUS_ERROR
+      	m_sError = ErrorInfo
+      	Trace(<§@1cd27ae1000630230002§> + ErrorInfo)
+      	Error(<§$0000§>,ErrorInfo)
+      end
+     type : 458752
+   -
+     name : ManageTransfer
+     internal_properties : CAAAAAgAAABfo3ngfW3mjZgNJz6bUyxMwvVlt9Z1OVw9MAYPWvN3bK6bK58zigX+OAKR7z3/eu3jUk4UmzB3NU42N3l/lA0soNi6I72ObyrX7PHBZwnuoS7H2Lt2OO+gP+raAaSw5I0PatgX+S/ZLtOogNSTPKcWu10Mlk3nuj3XSt5PrsIIIXSsmWKg6BKTITB1pXOUvWOOzVEk
+     procedure_id : 1900256585980092613
+     type_code : 12
+     code : |1-
+      
+      //[%00000071%]
+      //[%00000072%]
+      //[%00000073%]
+      //[%00000074%]
+      //[%00000075%]
+      //[%00000076%]
+      //[%00000077%]
+      
+      Procédure ManageTransfer(local nTotalSize is int, local nTransferredSize is int)
+      
+      //[%00000078%]
+      
+      //[%00000079%]
+      if m_nStatus = STATUS_CANCELED then
+      	gclUIManager.Refresh()
+      	//[%0000007a%]
+      	result False
+      end
+      
+      if nTransferredSize >= nTotalSize then
+      	//[%0000007b%]
+      	//[%0000007c%]
+      	m_nStatus = STATUS_COMPLETED
+      else
+      	//[%0000007d%]
+      	//[%0000007e%]
+      	m_nStatus = STATUS_INPROGRESS
+      	m_nTotalBytes = nTotalSize
+      	m_nTransferredBytes = nTransferredSize
+      end
+      
+      //[%0000007f%]
+      gclUIManager.Refresh()
+      
+      result True
+     type : 458752
+  procedure_templates : []
+  property_templates : []
+ code_parameters :
+  internal_properties : CAAAAAgAAACVGQgYbalU7DKC3oH4ItDrjtcTHXXV/EuH8q0IbhyQlw==
+  original_name : CClasse1
+resources :
+ string_res :
+  identifier : 0x1e032d85004dff2a
+  internal_properties : CAAAAAgAAACm76HWfKGWp33VjXInA4cRlqArlgTTA862QGt72W2ld5Y=
+  strings :
+   -
+     text :
+      en-GB : Could not connect to server.
+     index : 0
+custom_note :
+ internal_properties : CAAAAAgAAABtB9HWVzrXO2+4NDRVK0vmzaNKrCKqH1DBX30lMmGZ

@@ -1,0 +1,249 @@
+#To edit and compare internal_properties, use WINDEV integrated tools.
+#Internal properties refer to the properties of controls in windows, reports, etc.
+info :
+ name : FTPCoordinator
+ major_version : 28
+ minor_version : 0
+ type : 4
+ description : ""
+ subtype : 0
+class :
+ identifier : 0x1a5f114a055e976f
+ internal_properties : CAAAAAgAAAB2/vstTMCJbS/hlxjFxirSqKvCUuv8YxgpWyl7S3iA
+ code_elements :
+  internal_properties : CAAAAAgAAACld4lkjFJW2HwdCTGWbo8PfSDhxzjMMxpEVLQEVn07Rs2UmuggYVqRaumb7cST8+FrY4OGea6m4CsOGn7ErP+MwjEzw8cpOYtbMCYvuavuDHD0
+  type_code : 10
+  p_codes :
+   -
+     code : |1+
+      FTPCoordinator is class
+      	//[%0000008d%]
+      	m_arrTransfers 			is array of FTPTransfer
+      	
+      	//[%0000008e%]
+      	m_nIDCurrentTransfer		is int
+      	
+      end
+      
+     type : 131072
+  procedures :
+   -
+     name : Constructeur
+     internal_properties : CAAAAAgAAAByVII4Yia12DZ/TOTcjJZjRChdvAftkewZ7N4z28VQPCgJ7b6mJSsvdxkz/NkWRBZlHPQZ93Ax2xp0y06J/Cx+QwHlPeApZC1l6rx4mqkRJ5lLYiKJgPTQ82RRRq00OUekNl7EMElMON2kkTkMJtL+9onOoV7/HwWrlMkeZaLXV0+uvaVJzMFbRabawnytzMxnK+rjUw==
+     procedure_id : 1900256577389041534
+     type_code : 27
+     code : |1+
+      Procédure Constructor()
+      
+      Trace("Creating the coordinator and starting its thread.")
+      
+      Run()
+     type : 589824
+   -
+     name : Destructeur
+     procedure_id : 1900256577389107070
+     type_code : 28
+     code : |1+
+      Procédure Destructor()
+     type : 655360
+   -
+     name : Run
+     internal_properties : CAAAAAgAAACjqUqU4x1HtmWRSkc/LtdzNo8eMGRtuNyYxovjTuw6yKvwDKNw3qk3rzhip6aOFkfSW2oHuXYCz/7MmtCH8QHhnis4AqE1/KRjsL0SC9a+pQWJdElDB9493vmPRFx41NAiOkYNRyh/zFsrqLQEnLdh76WLByM276ePWj8BPizrDabgoMF5qnnnfQ0Viy5RAr3eufGwKoRAPGLWodzp7QDJdP9vsZMx1mUvMk4rnNtw4RLD2ZhKk/prBWJKNm3Du9JggRkfmR4GtY5V3xWpPpu8M5dqVFnphsp5FqTnOPLcNSe1ZNrkJYOzQY4hhCMoEdIC4+ZWCSXtXctBcJ9B+auu
+     procedure_id : 1900256577389172606
+     type_code : 12
+     code : |1+
+      
+      //[%0000008f%]
+      //[%00000090%]
+      //[%00000091%]
+      //[%00000092%]
+      //[%00000093%]
+      
+      Procédure public Run()
+      
+      Trace("starting the coordinator")
+      bUpdateUI is boolean = False
+      
+      
+      //[%00000094%]
+      while gnConnectionID <> -1
+      	bUpdateUI = False
+      	
+      	//[%00000095%]
+      	if gnNbTransfersInProgress >= gnNbSimultaneousTransfers then
+      		continue
+      	end
+      	
+      	//[%00000096%]
+      	if m_arrTransfers..Occurrence > 0 then
+      		//[%00000097%]
+      		for each clTransfer of m_arrTransfers
+      			//[%00000098%]
+      			if gnNbTransfersInProgress >= gnNbSimultaneousTransfers then
+      				break
+      			end
+      			
+      			//[%00000099%]
+      			if not bUpdateUI _and_ (clTransfer.m_nStatus = FTPTransfer.STATUT_PENDING _or_ clTransfer.m_nStatus = FTPTransfer.STATUS_INPROGRESS) then
+      				bUpdateUI = True
+      				//[%0000009a%]
+      				if not gclUIManager.bInFunction then
+      					gclUIManager.Start()
+      				end
+      			end
+      			//[%0000009b%]
+      			if clTransfer.m_nStatus = FTPTransfer.STATUT_PENDING then
+      				//[%0000009c%]
+      				//[%0000009d%]
+      				clTransfer.StartTransfer()
+      				
+      				//[%0000009e%]
+      				Multitask(-20)
+      			end
+      		end
+      	end
+      	
+      	//[%0000009f%]
+      	if not bUpdateUI
+      		if gclUIManager.bInFunction then
+      			gclUIManager.StopIt()
+      		end
+      	end
+      	
+      	//[%000000a0%]
+      	Multitask(-5)
+      end
+      
+      Trace("Stopping the FTP coordinator")
+     type : 458752
+   -
+     name : StopIt
+     procedure_id : 1900256577389238142
+     type_code : 12
+     code : |1-
+      
+      //[%000000a1%]
+      //[%000000a2%]
+      Procédure StopIt()
+      Trace("stopping all the transfers")
+      for each clTransfer of m_arrTransfers
+      	if clTransfer.m_nStatus = FTPTransfer.STATUS_INPROGRESS then
+      		CancelTransfer(clTransfer.m_nID)
+      	end
+      end
+     type : 458752
+   -
+     name : AddTransfer
+     internal_properties : CAAAAAgAAAB21BrPKb0ji8HQax14Dghd9SSXMp7UNspskhWfBQPzfNie9cKcQCbjMs9GsB3COhHOgrCh3edv141rPjOu3Mq/N3meg8t8NMJywSwU/WuntqbQAqd6M6/iq2JcJa5/3HTZ6ICZteTiuQLppCvAjl7m5ocMzvJU5EaiU1QtruaC9PJlohH/pjQb4X/IJcA3H9Wk7maH1cPF2n1HtsKzeoq7vM8efHrm9Btsg1Xp6ypw0mitzKWR
+     procedure_id : 1900256577389303678
+     type_code : 12
+     code : |1-
+      
+      //[%000000a3%]
+      //[%000000a4%]
+      //[%000000a5%]
+      //[%000000a6%]
+      //[%000000a7%]
+      //[%000000a8%]
+      //[%000000a9%]
+      //[%000000aa%]
+      //[%000000ab%]
+      //[%000000ac%]
+      //[%000000ad%]
+      //[%000000ae%]
+      Procédure AddTransfer(sFile is string, sDestinationDir is string, nType is int, bDownload is boolean)
+      
+      //[%000000af%]
+      clTransfer is FTPTransfer
+      
+      //[%000000b0%]
+      //[%000000b1%]
+      if sFile <> "" then
+      	clTransfer.m_sFile = sFile
+      else
+      	result False
+      end
+      
+      if sDestinationDir <> "" then
+      	clTransfer.m_sDestinationDir = sDestinationDir
+      else 
+      	clTransfer.m_sDestinationDir = "/"
+      end
+      
+      if nType  = ftpFile _or_ nType = ftpDirectory then
+      	clTransfer.m_nType = nType
+      else
+      	result False 
+      end
+      
+      clTransfer.m_bDownload = bDownload
+      
+      //[%000000b2%]
+      m_nIDCurrentTransfer++
+      clTransfer.m_nID = m_nIDCurrentTransfer
+      
+      //[%000000b3%]
+      clTransfer.m_nStatus = FTPTransfer.STATUT_PENDING
+      
+      //[%000000b4%]
+       //[%000000b5%]
+       ArrayAdd(m_arrTransfers,clTransfer)
+       Trace("Adding a transfer: " + sFile + " " + sDestinationDir + " " + nType + " " + bDownload)
+      
+      result True
+     type : 458752
+   -
+     name : CancelTransfer
+     internal_properties : CAAAAAgAAADrHX/nq/FLOZJpG3HPt5zD/gh7moWy4SRTDKCQVFXhfKJ0kIBcUp47YCHgS8dff1UxIq9eZFHRHQtpjKG9iGcFzJWlTEb6j1APR+hDr8V6sRRcsHI131ddKZsIMPtByh+m5LiRSg2vNflF6jS3Avl50lQtmq20f7hjfB6a1WqEdO0/5LIYtxwlGWp5WZdFu5NjeIb5E5ps17o9hh9LlmTCpKBVwnvZziUUHHAI+cF4Bmw78uHec3c4y/wkxVot+QIMTFvT+U7+VnQWbNpzFdnkhp2pALBujSm+f16mZFM=
+     procedure_id : 1900256577389369214
+     type_code : 12
+     code : |1-
+      
+      //[%000000b6%]
+      //[%000000b7%]
+      //[%000000b8%]
+      //[%000000b9%]
+      //[%000000ba%]
+      //[%000000bb%]
+      //[%000000bc%]
+      //[%000000bd%]
+      //[%000000be%]
+      Procédure CancelTransfer(nTransferID is int)
+      
+      //[%000000bf%]
+      nSubscript 			is int
+      clTransfer 		is FTPTransfer
+      
+      Trace("Request for canceling the transfer with the ID: " + nTransferID)
+      
+      //[%000000c0%]
+      nSubscript = ArraySeek(m_arrTransfers,asLinear,"m_nID",nTransferID)
+      
+      if nSubscript > 0 then
+      	//[%000000c1%]
+      	clTransfer = m_arrTransfers[nSubscript]
+      
+      	if clTransfer.m_nStatus= FTPTransfer.STATUT_PENDING or clTransfer.m_nStatus = FTPTransfer.STATUS_INPROGRESS then
+      			//[%000000c2%]
+      			Trace(StringBuild("Status of transfer %1 changed to canceled",nTransferID))
+      			
+      			m_arrTransfers[nSubscript].m_nStatus = FTPTransfer.STATUS_CANCELED
+      			result True
+      	end
+      else
+      	Trace("Transfer not found.")
+      end
+      
+      result False
+     type : 458752
+  procedure_templates : []
+  property_templates : []
+ code_parameters :
+  internal_properties : CAAAAAgAAACVGQgYbalU7DKC3oH4ItDrjtcTHXXV/EuH8q0IbhyQlw==
+  original_name : CClasse1
+resources :
+ string_res :
+  identifier : 0x1e032c360046e42b
+  internal_properties : CAAAAAgAAACm76HWfKGWp33VjXInA4cRlqArlgTTA862QGt72W2ld5Y=
+custom_note :
+ internal_properties : CAAAAAgAAABtB9HWVzrXO2+4NDRVK0vmzaNKrCKqH1DBX30lMmGZ

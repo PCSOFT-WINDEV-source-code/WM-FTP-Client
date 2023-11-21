@@ -1,0 +1,351 @@
+#To edit and compare internal_properties, use WINDEV integrated tools.
+#Internal properties refer to the properties of controls in windows, reports, etc.
+info :
+ name : WM FTP Client
+ major_version : 28
+ minor_version : 0
+ type : 4097
+ description : ""
+ subtype : 0
+project :
+ identifier : 0x0
+ internal_properties : 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
+ configurations :
+  -
+    name : iOS application
+    internal_properties : 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
+    configuration_id : 11233792424572333511
+    type : 18
+    generation_directory : .\Exe\iOS application
+    version : {}
+    language : 2
+  -
+    name : Android application
+    internal_properties : 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
+    configuration_id : 4147810178948471351
+    type : 15
+    generation_directory : .\Exe\Android Application
+    version : {}
+    language : 2
+    telemetry :
+     status : disabled
+ elements :
+  identifier : 0x4cd17ea00002150d
+  elements :
+   -
+     name : FTPCoordinator
+     identifier : 0x4e032c3a0016f09a
+     internal_properties : CAAAAAgAAABEwqyIN2xEZ05NttAbjrojAlEJwQCpaAl2CRUXaqTwKNBSFBssnISCGwfxz1eJcWdR0Q==
+     physical_name : .\FTPCoordinator.wdc
+     type : 4
+   -
+     name : GlobalProcedures
+     identifier : 0x4cd27b0e0010e08d
+     internal_properties : CAAAAAgAAABEwqyIN2xEZ05NttAbgL4nMlUB0eJE3GJ2wXgCXs7GSs5cEh0snISCGwfxz1eJcWdR0Q==
+     physical_name : .\GlobalProcedures.wdg
+     type : 7
+   -
+     name : UIManager
+     identifier : 0x4e0446140018f65f
+     internal_properties : CAAAAAgAAABAPrjkw7jwKwIxeuRfxfLTImcRwf5IkMaKGDoLf7/VW+FtPWLo2Li2T8s1gwP9hXtFzQ==
+     physical_name : .\UIManager.wdc
+     type : 4
+   -
+     name : WIN_EditConfiguration_Tablet
+     identifier : 0x4e0dcbc10116d60a
+     internal_properties : CAAAAAgAAAC0kpyYJxwUFz79JiALkkor0kGJYVAzQiW8EY5FtkhMnKxmIA88jHTyi7chn2eZYVehoQ==
+     physical_name : .\WIN_EditConfiguration_Tablet.wpw
+     type : 2
+   -
+     name : WIN_EditConfiguration
+     identifier : 0x4cd2866b0027427c
+     internal_properties : CAAAAAgAAAC2nJ6CIR4WGTzvbOpN7mitfA87U3y+/9ZWHToUOOSwCDTa8D8CxqqofbkjnWWbZ1mjow==
+     physical_name : .\WIN_EditConfiguration.wpw
+     type : 2
+   -
+     name : WIN_Main_Tablet
+     identifier : 0x4e0c9ac60123da31
+     internal_properties : CAAAAAgAAACMiuQwD7T8LzblPtgT3SZnhitVNYKcYAqjbI/DX89Nq1mFJQo0lHz6g785hw/BuS+ZmQ==
+     physical_name : .\WIN_Main_Tablet.wpw
+     type : 2
+   -
+     name : WIN_Main
+     identifier : 0x4cd181a50048dd99
+     internal_properties : CAAAAAgAAACehPaqGUbugURHlLKF6FyZXNNrc7ChkOSidnoNRqZ2Qvo0VkkK/uJgJRGLdT2zT0GLiw==
+     physical_name : .\WIN_Main.wpw
+     type : 2
+   -
+     name : FTPTransfer
+     identifier : 0x4e032d8d00191c5b
+     internal_properties : CAAAAAgAAAD/W9fL+KUNHifmM90Q1HkuxWQcRHs0d/O2mdZXKPakbIS86CcvkX//hLAqlh7SriLqag==
+     physical_name : .\FTPTransfer.wdc
+     type : 4
+   -
+     name : WIN_Picker
+     identifier : 0x4cd2ea8f01177602
+     internal_properties : CAAAAAgAAAALB3MXlNFZAtvaBwE0eeGuXc4IeGudUc90q+HBDQ+HWe8tY7ybbVPTqJQO6qom0sYOFg==
+     physical_name : .\WIN_Picker.wpw
+     type : 2
+   -
+     name : WIN_AdvancedConfig
+     identifier : 0x4ec3dd6d0124c78a
+     internal_properties : CAAAAAgAAAAlIQ0RrstjfMH0zUvuBLv0a346Mh0OZRKjeSrryFY8jKBcLGPhJwkJko4I8LAg2MgwMA==
+     physical_name : .\WIN_AdvancedConfig.wpw
+     type : 2
+   -
+     name : IW_Configurations
+     identifier : 0x4285080b00dcac10
+     internal_properties : CAAAAAgAAACIhvCsG0Do88rJxIfzqp1TPKM7k56lJOtc2WSbdJ7++sIM5EiXYQoOl4N9ezu1TUONlQ==
+     physical_name : .\IW_Configurations.wdw
+     type : 8
+   -
+     name : IW_Configurations_Tablet
+     identifier : 0x428a26cc02d130a7
+     internal_properties : CAAAAAgAAAAwDmi0cyiAm7JmbAo5ww0G8oGpAaQoK5KeNmj+OvgczHyW7cMJ8csT/zulE5NNNasVHQ==
+     physical_name : .\IW_Configurations_Tablet.wdw
+     type : 8
+   -
+     name : IW_PULL_TO_REFRESH
+     identifier : 0x44184f7d00fb9234
+     internal_properties : CAAAAAgAAABv60dbaBUdzplRbiSGnJBEwVz4CLHJfMBceSNsONw2ir5yvNYi3h9otmBapm5iHpJ6+g==
+     physical_name : .\IW_PULL_TO_REFRESH.wdw
+     type : 8
+     configurations :
+      -
+        configuration_id : 4147810178948471351
+        excluded : true
+   -
+     name : IW_Transfers
+     identifier : 0x450af9a60211a138
+     internal_properties : CAAAAAgAAABVMb3h3rvzLCRTqhMELt8cGbrk5MhZtdWkXAX0lo8PyXeF0VC+RNJbib44gADwiHhAwA==
+     physical_name : .\IW_Transfers.wdw
+     type : 8
+   -
+     name : WIN_Rights
+     identifier : 0x452e2c11020f0ae0
+     internal_properties : CAAAAAgAAABm7E5SUQ4myZMigK2lXTfbiPkHD7/UflGCX6GKsnOhvwnp+w8DPxIatGlTrXVrF4lz8w==
+     physical_name : .\WIN_Rights.wpw
+     type : 2
+     configurations :
+      -
+        configuration_id : 11233792424572333511
+        excluded : true
+   -
+     name : COL_Tools
+     identifier : 0x45af66640184d9f6
+     internal_properties : CAAAAAgAAADxTSl9yve/8Pjc1U89i6/6hdaQsPQy7rWuuIHtIhMDPctR6/6bZv60nYJ8RMwE/OzUXA==
+     physical_name : .\COL_Tools.wdg
+     type : 7
+   -
+     name : COL_JAVA
+     identifier : 0x4a1fdc0b03d75944
+     internal_properties : CAAAAAgAAAAWfH6iAX42OYTpPvkUM16vpMFj+0TdusStZ/fkXd0/iadbJSS2DR6i5VlDvUW7R7kDAw==
+     physical_name : .\COL_JAVA.wdg
+     type : 7
+     configurations :
+      -
+        configuration_id : 11233792424572333511
+        excluded : true
+   -
+     name : SET_UI
+     identifier : 0x4a1fdbf203d5f942
+     internal_properties : CAAAAAgAAACc+vQgn8Rsf85fH/rwnZ6FnK3LU2DJHMWhyhGCr3sRN9l5xaQ8zwOEm48J978xyT+JiQ==
+     physical_name : .\SET_UI.wdg
+     type : 7
+   -
+     name : QRY_Configurations
+     identifier : 0x429db2df00754ce7
+     internal_properties : CAAAAAgAAACW/P4igf62uRwHyElltadAoNcPh8qD1gVS6tg5AJp6Vv4gh0U/we7gXdnDPcU7xzmDgw==
+     physical_name : .\QRY_Configurations.WDR
+     type : 5
+  other_elements : []
+  analysis : .\Android FTP Client.ana\Android FTP Client.wda
+  net_assemblies : []
+  uwp_api : []
+  external_components : []
+  internal_components : []
+ report_and_queries_enabled : false
+ languages :
+  - en-GB
+ wb_style_sheet : .\Android FTP Client.wws
+ url_rewriting :
+  internal_properties : CAAAAAgAAADkPzcUdUUS7wCiun+MCjqYH70RJdzkSv/nRvXZ3ENdikMa6bcHtsAH
+ disabled_errors :
+  internal_properties : CAAAAAgAAAAF5ph0/eSV7WcmQJFW6PYn11vchSAsY1i1n7JC5QzY4AP67GzBSevF2GqYr1JCKe4tz/s3d3DjOXXj79usf/4bua0kCoGeIAt6noOLnl9WDlzyefrGtawvznPPehi/HK1QVNxyQAnPSDNpDWWhGog/P/H304nSNg9MQSp+UfSCvz7+0+XB390QCmFWLke0xkGb9e6ExyPRUFnwyAX0hTdLOUqFsKbIWhVz2rkYCHwiTe4VJQL0CyiN8if34LF8f3yZ9zmt44BsRqZYMiVmg/XCAcuEKVzPRhOkK+pXu3kxiTzyZRagLjvbcoa4sET0F72TW0yq31id
+ code_elements :
+  internal_properties : CAAAAAgAAADDWsfPVlTaEzDKzmn0RoXt0sXFBy7vAaess+/M3l6ojE40yljoValVXYGISES+hUW3/UDYw5Lb4wh1qinorhQ=
+  type_code : 0
+  p_codes :
+   -
+     internal_properties : CAAAAAgAAAB/37cQYnUidNfoZbONtfSQENOCCwmz59IfdMpjWyVcMvVnJ02W+r/wWkByloFnpedvqMhpXmFq950QAOwrjJiIlgi+2rFoJSZRwnzNPROelK5TcibZvxCjrdpmHustLHQQErtsIw0MbUUuvuj/DgiCu2FNQ36TuLCxgjZfv1BlaMGjT6GK/Pp37sLbHYv0ENM=
+     code : |1+
+      
+      
+      ///////////////////////////////////////////////////////////////////////////////////////////
+      // Enable the debug mode if necessary
+      DebugMode(False)
+      
+      ///////////////////////////////////////////////////////////////////////////////////////////
+      // Structure of configurations
+      STConfiguration is Structure
+      	sName				is string
+      	sServerName 		is string
+      	nPort 				is int
+      	nTimeout 				is int
+      	bAuthentication 	is boolean
+      	sUser 		is string
+      	sPassword 		is string
+      	bPassive 			is boolean
+      	sFTPDirectory		is string
+      	sLocalDirectory	is string
+      	nSecurity 			is int
+      end
+      
+      ///////////////////////////////////////////////////////////////////////////////////////////
+      // Constants of preferences
+      constant
+      	PREF_CONFIGURATIONID 	= "IDCONFIG"
+      	PREF_NBTRANSFERS 		= "NBTRANSFERS"
+      end
+      
+      ///////////////////////////////////////////////////////////////////////////////////////////
+      //Global variables
+      gnConnectionID 				is int = -1
+      gclFTPCoordinator			is FTPCoordinator dynamic
+      gclUIManager				is UIManager
+      // Configuration
+      gstConfiguration 			is STConfiguration
+      gnConfigurationID			is int
+      // Current directories
+      gsCurrentFTPDir 			is string
+      gsCurrentLocalDir 			is string 
+      
+      <compile if ConfigurationType=Android>
+      	gsCurrentLocalDir = [fSep] + SysDirStorageCard() + [fSep]
+      <else>
+      	gsCurrentLocalDir = [fSep] + fDataDir() + [fSep] + "FTP" + [fSep]
+      	
+      	if not fDirExist(gsCurrentLocalDir) then
+      		fMakeDir(gsCurrentLocalDir)
+      	end
+      <end>
+      
+      
+      
+      
+      // FTP reports
+      gbInConnectionError 		is boolean
+      gbCTPLAvailable			is boolean
+      // Type of device
+      gbInTabletMode			is boolean = False
+      // Advertising banner
+      gsAdDestination 			is string = <§@00000000000000000000§>
+      
+      
+      ///////////////////////////////////////////////////////////////////////////////////////////
+      // Manage the update of the database
+      if not InSimulatorMode then
+      	MigrationDB()
+      end
+      
+      // Initializes the database
+      InitializeDatabase()
+      
+      
+      
+      ///////////////////////////////////////////////////////////////////////////////////////////
+      // Load the preferences
+      gnNbSimultaneousTransfers 	is int = LoadParameter(PREF_NBTRANSFERS,1)
+      gnNbTransfersInProgress 		is int
+      
+      ///////////////////////////////////////////////////////////////////////////////////////////
+      // Load the last configuration used
+      LoadConfiguration()
+      
+      
+      
+      ThreadMode(threadMultiProcessor+threadCriticalSection)
+     type : 196608
+   -
+     type : 196621
+   -
+     type : 196627
+     enabled : false
+  orphans :
+   -
+     name : iOS application
+     identifier : 0x45af649e0040eb15
+     code_elements :
+      type_code : 159
+      p_codes : []
+   -
+     name : Android application
+     identifier : 0x4cd17ea00003153c
+     code_elements :
+      type_code : 159
+      p_codes : []
+ code_parameters :
+  internal_properties : CAAAAAgAAACVGQgYbalU7DKC3oH4ItDrjtcTHXXV/EuH8q0IbhyQlw==
+rad :
+ internal_properties : CAAAAAgAAABhIL0UXeZmxDJxY3Xy0Q==
+project_explorer :
+ explorer_type : project
+ children :
+  -
+    explorer_type : windows
+    children :
+     -
+       name : Phone
+       explorer_type : custom_folder
+       children :
+        -
+          name : WIN_EditConfiguration
+          explorer_type : element
+          type : 2
+        -
+          name : WIN_Main
+          explorer_type : element
+          type : 2
+        -
+          name : WIN_Picker
+          explorer_type : element
+          type : 2
+        -
+          name : WIN_AdvancedConfig
+          explorer_type : element
+          type : 2
+        -
+          name : IW_Configurations
+          explorer_type : element
+          type : 8
+        -
+          name : IW_Transfers
+          explorer_type : element
+          type : 8
+     -
+       name : Tablet
+       explorer_type : custom_folder
+       children :
+        -
+          name : WIN_Main_Tablet
+          explorer_type : element
+          type : 2
+        -
+          name : WIN_EditConfiguration_Tablet
+          explorer_type : element
+          type : 2
+        -
+          name : IW_Configurations_Tablet
+          explorer_type : element
+          type : 8
+resources :
+ string_res :
+  identifier : 0x0
+  internal_properties : CAAAAAgAAACm76HWfKGWp33VjXInA4cRlqArlgTTA862QGt72W2ld5Y=
+  strings :
+   -
+     text :
+      en-GB : "http://www.windev.com/windevppc/index.html"
+     index : 0
+custom_note :
+ internal_properties : CAAAAAgAAAAd98VSJfHHqE3P0QHwrwdhn7ig8dWBR6valpUTgnAMTVXiDg==
